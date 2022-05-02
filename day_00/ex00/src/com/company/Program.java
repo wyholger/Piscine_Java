@@ -4,29 +4,30 @@ public class Program {
 
     public static void main(String[] args) {
         int num = 479598;
-        int len = 0;
-        int dec = 10;
+        int num_tmp;
+        int dec = 1000000000;
         int sum = 0;
-        int tmp_len;
+        int sum_tmp;
 
-        while (num / dec > 0)
+        if (num == 0)
         {
-            dec *= 10;
-//            sum += num - num / (dec * len);
-            len++;
+            System.out.println(0);
+            return;
         }
-        while (len > 0)
+        if (num < 0)
+            num *= -1;
+        num_tmp = num;
+        while (num / dec == 0)
         {
-            tmp_len = len - 1;
-            dec = 10;
-            while (tmp_len-- > 0)
-            {
-                dec *= 10;
-            }
-            sum += num - (num / dec);
-            len--;
+            dec /= 10;
         }
-        System.out.println(len);
+        while (dec != 0)
+        {
+            sum_tmp = num_tmp / dec;
+            sum += sum_tmp;
+            num_tmp = num_tmp - (sum_tmp * dec);
+            dec /= 10;
+        }
         System.out.println(sum);
     }
 }
