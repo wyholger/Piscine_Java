@@ -5,21 +5,21 @@ public class Program
 
 	public static void main(String[] args) 
 	{
-		int num = 479598;
+		int number = 479598;
 		int num_tmp;
 		int dec = 1000000000;
 		int sum = 0;
 		int sum_tmp;
 
-		if (num == 0)
+		if (number == 0)
 		{
 			System.out.println(0);
 			return;
 		}
-		if (num < 0)
-			num *= -1;
-		num_tmp = num;
-		while (num / dec == 0)
+		if (number < 0)
+			number *= -1;
+		num_tmp = number;
+		while (number / dec == 0)
 		{
 			dec /= 10;
 		}
