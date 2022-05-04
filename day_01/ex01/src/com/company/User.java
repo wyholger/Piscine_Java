@@ -39,6 +39,7 @@ public class User
 		if (balance < 0)
 			balance = 0;
 		this.balance = balance;
+		this.id = UserIdsGenerator.getInstance().generateId();
 	}
 
 	public void setId(Integer id)
