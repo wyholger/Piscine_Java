@@ -94,6 +94,14 @@ public class TransactionsLinkedList implements TransactionsList
 		}
 	}
 
+	public static void print_array(Transaction[] transactions)
+	{
+		for (Transaction transaction : transactions)
+		{
+			System.out.println(transaction);
+		}
+	}
+
 	public Integer getSize()
 	{
 		return size;
