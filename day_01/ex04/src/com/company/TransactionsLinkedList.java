@@ -102,6 +102,32 @@ public class TransactionsLinkedList implements TransactionsList
 		}
 	}
 
+	@Override
+	public int length()
+	{
+		return size;
+	}
+
+	@Override
+	public Transaction get_transaction_by_id(UUID id)
+	{
+		ListItem tmp = start.getNext();
+		Transaction result;
+
+		if (tmp == end)
+			throw new TransactionNotFoundException();
+		for (int i = 0; i < size; i++)
+		{
+			if (tmp.getItem().getId() == id)
+			{
+				result = tmp.item;
+				return result;
+			}
+			tmp = tmp.getNext();
+		}
+		throw new TransactionNotFoundException();
+	}
+
 	public Integer getSize()
 	{
 		return size;
@@ -164,7 +190,7 @@ public class TransactionsLinkedList implements TransactionsList
 		}
 	}
 
-	private class TransactionNotFoundException extends RuntimeException
+	public static class TransactionNotFoundException extends RuntimeException
 	{
 		@Override
 		public String toString()
@@ -173,7 +199,7 @@ public class TransactionsLinkedList implements TransactionsList
 		}
 	}
 
-	private class TransactionListEmptyException extends RuntimeException
+	private static class TransactionListEmptyException extends RuntimeException
 	{
 		@Override
 		public String toString()

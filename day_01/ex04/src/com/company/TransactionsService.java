@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.UUID;
+
 public class TransactionsService
 {
 	private final UsersList list;
@@ -14,16 +16,25 @@ public class TransactionsService
 		list.add_user(user);
 	}
 
-	public Integer retrieving_user_balance(User user)
+	public void retrieving_user_balance(User user)
 	{
-		Transaction[] transactions = user.getTransactions().to_array();
+		Transaction[] transactions;
+
+		try
+		{
+			transactions = user.getTransactions().to_array();
+		}
+		catch (RuntimeException e)
+		{
+			return;
+		}
 		Integer tmp = 0;
 
 		for (Transaction transaction : transactions)
 		{
 			tmp += transaction.getAmount();
 		}
-		return tmp;
+		user.setBalance(user.getBalance() + tmp);
 	}
 
 	public void retrieving_users_balance()
@@ -32,9 +43,14 @@ public class TransactionsService
 
 		for (int i = 0; i < list.length(); i++)
 		{
-			balance_changes = retrieving_user_balance(list.get_user_by_index(i));
-			list.get_user_by_index(i).setBalance(list.get_user_by_index(i).getBalance() + balance_changes);
+			retrieving_user_balance(list.get_user_by_index(i));
+//			list.get_user_by_index(i).setBalance(list.get_user_by_index(i).getBalance() + balance_changes);  //проверить
 		}
+	}
+
+	public Integer get_user_balance(User user)
+	{
+		return user.getBalance();
 	}
 
 	public void make_transactions(User recipient, User sender, Integer amount)
@@ -60,21 +76,69 @@ public class TransactionsService
 	public Transaction[] get_user_transactions(User user)
 	{
 		Transaction[] transactions;
+
 		try
 		{
 			transactions = list.get_user_by_id(user.getId()).getTransactions().to_array();
 		}
 		catch (RuntimeException e)
 		{
-			transactions = new Transaction[0];
-			return transactions;
+			return null;
 		}
 		return transactions;
 	}
 
-	public void remove_transaction_user_by_id(User user)
+	public void remove_transaction_user_by_id(Integer user_id, UUID transaction_id)
 	{
-		//остановился здесь
+		try
+		{
+			list.get_user_by_id(user_id).getTransactions().remove_transaction_by_id(transaction_id);
+		}
+		catch (RuntimeException e)
+		{
+			System.out.println(e.toString());
+		}
+	}
+
+	public Transaction[] validate_transaction()
+	{
+		TransactionsLinkedList no_valid = new TransactionsLinkedList();
+		boolean flag = false;
+		Transaction[] tmp;
+		User recipient;
+		User sender;
+		UUID id;
+
+		for (int i = 0; i < list.length(); i++)
+		{
+			try
+			{
+				tmp = list.get_user_by_index(i).getTransactions().to_array();
+			}
+			catch (RuntimeException e)
+			{
+				continue;
+			}
+			for (Transaction transaction : tmp)
+			{
+				recipient = transaction.getRecipient();
+				sender = transaction.getSender();
+				id = transaction.getId();
+				try
+				{
+					list.get_user_by_id(recipient.getId()).getTransactions().get_transaction_by_id(id);
+					list.get_user_by_id(sender.getId()).getTransactions().get_transaction_by_id(id);
+				}
+				catch (RuntimeException e)
+				{
+					flag = true;
+					no_valid.add_transaction(transaction);
+				}
+			}
+		}
+		if (!flag)
+			return null;
+		return no_valid.to_array();
 	}
 
 	private static class NegativeAmountException extends RuntimeException

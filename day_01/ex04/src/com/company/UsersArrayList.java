@@ -52,7 +52,7 @@ public class UsersArrayList implements UsersList
 		return size;
 	}
 
-	private class UserNotFoundException extends RuntimeException
+	public static class UserNotFoundException extends RuntimeException
 	{
 		@Override
 		public String toString()
