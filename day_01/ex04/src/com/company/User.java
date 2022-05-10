@@ -32,22 +32,19 @@ public class User
 
 	private Integer id;
 	private final String name;
+	private final Integer start_balance;
 	private Integer balance;
 	private final TransactionsList transactions;
 
-	public User(String name, int balance)
+	public User(String name, int start_balance)
 	{
 		this.transactions = new TransactionsLinkedList();
 		this.name = name;
-		if (balance < 0)
-			balance = 0;
-		this.balance = balance;
+		if (start_balance < 0)
+			start_balance = 0;
+		this.start_balance = start_balance;
+		this.balance = start_balance;
 		this.id = UserIdsGenerator.getInstance().generateId();
-	}
-
-	public void setId(Integer id)
-	{
-		this.id = id;
 	}
 
 	public void setBalance(Integer balance)
@@ -55,14 +52,24 @@ public class User
 		this.balance = balance;
 	}
 
-	public String getName()
+	public Integer getStart_balance()
 	{
-		return name;
+		return start_balance;
 	}
 
 	public Integer getBalance()
 	{
 		return balance;
+	}
+
+	public void setId(Integer id)
+	{
+		this.id = id;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public Integer getId()
@@ -78,7 +85,7 @@ public class User
 	@Override
 	public String toString() {
 		return  Color.BLUE + name + Color.RESET +
-				", balance = " + Color.YELLOW + balance + Color.RESET +
+				", balance = " + Color.YELLOW + start_balance + Color.RESET +
 				", id = " + id;
 	}
 }

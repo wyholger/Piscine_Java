@@ -16,9 +16,10 @@ public class TransactionsService
 		list.add_user(user);
 	}
 
-	public void retrieving_user_balance(User user)
+	private void retrieving_user_balance(User user)
 	{
 		Transaction[] transactions;
+		Integer tmp = 0;
 
 		try
 		{
@@ -28,23 +29,18 @@ public class TransactionsService
 		{
 			return;
 		}
-		Integer tmp = 0;
-
 		for (Transaction transaction : transactions)
 		{
 			tmp += transaction.getAmount();
 		}
-		user.setBalance(user.getBalance() + tmp);
+		user.setBalance(user.getStart_balance() + tmp);
 	}
 
 	public void retrieving_users_balance()
 	{
-		Integer balance_changes;
-
 		for (int i = 0; i < list.length(); i++)
 		{
 			retrieving_user_balance(list.get_user_by_index(i));
-//			list.get_user_by_index(i).setBalance(list.get_user_by_index(i).getBalance() + balance_changes);  //проверить
 		}
 	}
 
@@ -64,7 +60,7 @@ public class TransactionsService
 			throw new NegativeAmountException();
 		send = Transaction.create_transaction(recipient, sender, Transaction.Transfer_category.CREDIT, -amount);
 		if (send == null)
-			throw new NoMoneyException();
+			throw new IllegalTransactionException();
 		take = Transaction.create_transaction(sender, recipient, Transaction.Transfer_category.DEBIT, amount);
 		if (take == null)
 			throw new IllegalTransactionException();
@@ -147,14 +143,6 @@ public class TransactionsService
 		public String toString()
 		{
 			return "Error. Illegal transaction. It is not possible to transfer a negative amount.";
-		}
-	}
-	private static class NoMoneyException extends RuntimeException
-	{
-		@Override
-		public String toString()
-		{
-			return "Error. Illegal transaction. There are not enough funds on the sender's balance.";
 		}
 	}
 	private static class IllegalTransactionException extends RuntimeException
