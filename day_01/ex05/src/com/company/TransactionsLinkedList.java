@@ -42,7 +42,7 @@ public class TransactionsLinkedList implements TransactionsList
 	}
 
 	@Override
-	public void remove_transaction_by_id(UUID id)
+	public void remove_transaction_by_id(UUID id) throws RuntimeException
 	{
 		ListItem tmp = start.getNext();
 
@@ -50,7 +50,7 @@ public class TransactionsLinkedList implements TransactionsList
 			throw new TransactionNotFoundException();
 		for (int i = 0; i < size; i++)
 		{
-			if (tmp.getItem().getId() == id)
+			if (tmp.getItem().getId().equals(id))
 			{
 				tmp.getPrev().setNext(tmp.getNext());
 				tmp.getNext().setPrev(tmp.getPrev());
@@ -118,7 +118,7 @@ public class TransactionsLinkedList implements TransactionsList
 			throw new TransactionNotFoundException();
 		for (int i = 0; i < size; i++)
 		{
-			if (tmp.getItem().getId() == id)
+			if (tmp.getItem().getId().equals(id))
 			{
 				result = tmp.item;
 				return result;

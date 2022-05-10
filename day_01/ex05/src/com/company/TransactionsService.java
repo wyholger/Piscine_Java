@@ -44,6 +44,21 @@ public class TransactionsService
 		}
 	}
 
+	public User get_user_by_id(Integer id)
+	{
+		User user;
+
+		try
+		{
+			user = list.get_user_by_id(id);
+		}
+		catch (RuntimeException e)
+		{
+			return null;
+		}
+		return user;
+	}
+
 	public Integer get_user_balance(User user)
 	{
 		return user.getBalance();
@@ -84,7 +99,7 @@ public class TransactionsService
 		return transactions;
 	}
 
-	public void remove_transaction_user_by_id(Integer user_id, UUID transaction_id)
+	public void remove_transaction_user_by_id(Integer user_id, UUID transaction_id) throws RuntimeException
 	{
 		try
 		{
@@ -92,7 +107,7 @@ public class TransactionsService
 		}
 		catch (RuntimeException e)
 		{
-			System.out.println(e.toString());
+			throw e;
 		}
 	}
 
