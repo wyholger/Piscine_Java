@@ -1,30 +1,23 @@
 package com.company;
 
-import java.util.Random;
-
 public class RunThread implements Runnable
 {
+	private static final Printer printer = new Printer();
 	Integer count;
-	String msg;
+	Type type;
 
-	public RunThread(Integer count, String msg)
+	public RunThread(Integer count, Type type)
 	{
 		this.count = count;
-		this.msg = msg;
+		this.type = type;
 	}
 
 	@Override
 	public void run()
 	{
-		Random random = new Random();
-
-		int for_random = random.nextInt(50);
-
-		sleeping(for_random + 1);
 		for (int i = 0; i < count; i++)
 		{
-			System.out.println(msg);
-			sleeping(10);
+			printer.printing(type);
 		}
 	}
 
