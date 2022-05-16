@@ -10,7 +10,8 @@ public class ArrayGenerator
 
 		for (int i = 0; i < size; i++)
 		{
-			arr[i] = (int)(Math.random() * 1000);
+			arr[i] = 1;
+//			arr[i] = (int)(Math.random() * 1000);
 		}
 		return arr;
 	}
