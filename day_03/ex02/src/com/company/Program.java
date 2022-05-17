@@ -1,6 +1,7 @@
 package com.company;
 
 import static com.company.CheckerArgs.*;
+import static com.company.Color.*;
 
 public class Program
 {
@@ -17,7 +18,11 @@ public class Program
 			return;
 		arr_size = arg[0];
 		thread_size = arg[1];
-		calculator = new Calculator(arr_size, thread_size);
+		System.out.println(PURPLE + "\nTesting mode with each element arr == 1\n" + RESET);
+		calculator = new Calculator(arr_size, thread_size, true);
+		calculator.calculate();
+		System.out.println(PURPLE + "\nWork mode with each element arr is random number from 0 to 1000\n" + RESET);
+		calculator = new Calculator(arr_size, thread_size, false);
 		calculator.calculate();
 	}
 

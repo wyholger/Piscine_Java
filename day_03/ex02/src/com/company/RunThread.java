@@ -1,6 +1,5 @@
 package com.company;
 
-import static com.company.Calculator.*;
 import static com.company.Color.*;
 
 public class RunThread implements Runnable
@@ -25,34 +24,34 @@ public class RunThread implements Runnable
 		Integer sum = 0;
 
 		for (int i = start; i <= end; i++)
-			sum += calculator.getArray()[i];
+			sum += calculator.get_array()[i];
 		result = sum;
 	}
 
 	public void print_result()
 	{
-		System.out.println(BLUE + "Thread " + YELLOW + (this.getCount() + 1)
-				+ BLUE + ": from " + YELLOW + this.getStart()
-				+ BLUE + " to " + YELLOW + this.getEnd()
-				+ BLUE + " sum is " + YELLOW + this.getResult());
+		System.out.println(BLUE + "Thread " + YELLOW + (this.get_count() + 1)
+				+ BLUE + ": from " + YELLOW + this.get_start()
+				+ BLUE + " to " + YELLOW + this.get_end()
+				+ BLUE + " sum is " + YELLOW + this.get_result());
 	}
 
-	public Integer getCount()
+	public Integer get_count()
 	{
 		return count;
 	}
 
-	public Integer getStart()
+	public Integer get_start()
 	{
 		return start;
 	}
 
-	public Integer getEnd()
+	public Integer get_end()
 	{
 		return end;
 	}
 
-	public Integer getResult()
+	public Integer get_result()
 	{
 		return result;
 	}

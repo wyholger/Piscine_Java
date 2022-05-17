@@ -1,7 +1,5 @@
 package com.company;
 
-import static com.company.Calculator.*;
-
 public class ThreadGenerator
 {
 	public static Thread[] generate_threads(Integer thread_size, Integer arr_size, Calculator calculator)
@@ -23,13 +21,12 @@ public class ThreadGenerator
 		for (int i = 0; i < thread_size; i++)
 		{
 			RunThread run_thread = new RunThread(i, index_start, index_end, calculator);
-			calculator.getList_index_for_threads().add(new int[]{i, index_start, index_end});
 			run_threads[i] = run_thread;
 			index_start = recalculation_index_start(chunk_each_thread, index_start);
 			index_end = recalculation_index_end(i, thread_size, chunk_each_thread, index_end, arr_size);
 			threads[i] = new Thread(run_thread);
 		}
-		calculator.setRun_threads(run_threads);
+		calculator.set_run_threads(run_threads);
 		return threads;
 	}
 

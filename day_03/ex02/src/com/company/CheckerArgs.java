@@ -6,7 +6,7 @@ public class CheckerArgs
 {
 	public static String MSG_ERR_NUM_ARG = "Error. Two argument required.";
 	public static String EXAMPLE_ARGS = "Example: java Program --arraySize=13 --threadsCount=3";
-	public static String DETAILS = "Arguments == --arraySize=<N> --threadsCount=<K>.\n<N> must be a positive integer. Not exceeding 2000000.\n<K> must be a positive integer, not exceeding <N>.";
+	public static String DETAILS = "Arguments == --arraySize=<N> --threadsCount=<K>.\n<N> must be a positive integer more than 0. Not exceeding 2000000.\n<K> must be a positive integer more than 0. Not exceeding <N>.";
 	public static String MSG_NO_VALID_ARG = "Error. No valid arg.";
 
 	CheckerArgs(String example)
@@ -46,7 +46,7 @@ public class CheckerArgs
 		{
 			return null;
 		}
-		if (val[0] < 0 || val[1] < 0 || val[1] > val[0])
+		if (val[0] <= 0 || val[1] <= 0 || val[1] > val[0])
 			return null;
 		return val;
 	}
