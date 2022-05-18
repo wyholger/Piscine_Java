@@ -1,10 +1,14 @@
 package com.company;
 
 import static com.company.CheckerArgs.*;
-import static com.company.Type.*;
+import static com.company.Color.*;
 
 public class Program
 {
+	private static final String CHICKEN_MSG = BLUE + "Hen" + RESET;
+	private static final String EGG_MSG = PURPLE + "Egg" + RESET;
+	private static final String HUMAN_MSG = YELLOW + "Human" + RESET;
+
 	public static void main(String[] args)
 	{
 		Integer	count;
@@ -12,25 +16,29 @@ public class Program
 		Thread	thread_chicken;
 		Thread	thread_egg;
 
+
 		if ((count = check_args_and_read_count(args)) == null)
 			return;
-		thread_chicken = init_thread(count, CHICKEN);
-		thread_egg = init_thread(count, EGG);
+		thread_chicken = init_thread(count, CHICKEN_MSG);
+		thread_egg = init_thread(count, EGG_MSG);
 
 		thread_chicken.start();
 		thread_egg.start();
 
 		joining_thread(thread_chicken);
 		joining_thread(thread_egg);
+
+		for (int i = 0; i < count; i++)
+			System.out.println(HUMAN_MSG);
 	}
 
-	private static Thread init_thread(Integer count, Type type)
+	private static Thread init_thread(Integer count, String msg)
 	{
 		RunThread run_thread;
 
 		Thread thread;
 
-		run_thread = init_run(count, type);
+		run_thread = init_run(count, msg);
 		thread = new Thread(run_thread);
 		return thread;
 	}
@@ -40,16 +48,15 @@ public class Program
 		try
 		{
 			thread.join();
-		}
-		catch (InterruptedException e)
+		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	private static RunThread init_run(Integer count, Type type)
+	private static RunThread init_run(Integer count, String msg)
 	{
-		return new RunThread(count, type);
+		return new RunThread(count, msg);
 	}
 
 	private static Integer check_args_and_read_count(String[] args)

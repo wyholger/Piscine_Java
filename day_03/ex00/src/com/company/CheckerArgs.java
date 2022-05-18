@@ -5,8 +5,8 @@ import static com.company.Color.*;
 public class CheckerArgs
 {
 	public static String MSG_ERR_NUM_ARG = "Error. One argument required.";
-	public static String EXAMPLE_ARGS = "Example: java Program --threadsCount=3";
-	public static String DETAILS = "Arguments == --threadsCount=<K>.\n<K> must be a positive integer more than 0.";
+	public static String EXAMPLE_ARGS = "Example: java Program --count=50";
+	public static String DETAILS = "Argument == --count=<N>. <N> must be a positive integer.";
 	public static String MSG_NO_VALID_ARG = "Error. No valid arg.";
 
 	CheckerArgs(String example)
@@ -19,21 +19,15 @@ public class CheckerArgs
 		return args.length == 1;
 	}
 
-	public static boolean check_two_arg(String[] args)
-	{
-		return args.length == 2;
-	}
-
 	public static Integer check_valid_arg(String[] args)
 	{
-		String[]	str;
-
-		int val = 0;
+		String[] str;
+		int val;
 
 		str = args[0].split("=");
 		if (str.length != 2)
 			return null;
-		if (!str[0].equals("--threadsCount"))
+		if (!str[0].equals("--count"))
 			return null;
 		try
 		{
@@ -43,7 +37,7 @@ public class CheckerArgs
 		{
 			return null;
 		}
-		if (val <= 0)
+		if (val < 0)
 			return null;
 		return val;
 	}
