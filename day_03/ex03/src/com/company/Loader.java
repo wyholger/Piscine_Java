@@ -1,19 +1,18 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static com.company.ReaderFile.*;
+import static com.company.ReaderFile.reading_from_file;
 
 public class Loader
 {
-	public static final String PATH = "input_file/files_urls.txt";
+	public static final String 			PATH =	"input_file/files_urls.txt";
 
 	private ConcurrentLinkedQueue<Line> urls;
 
-	private Thread[] threads;
+	private Thread[] 					threads;
 
-	private Integer thread_count;
+	private final Integer 				thread_count;
 
 	public Loader(int thread_count)
 	{

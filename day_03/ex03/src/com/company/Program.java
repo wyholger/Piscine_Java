@@ -4,30 +4,33 @@ import static com.company.CheckerArgs.*;
 
 public class Program
 {
-
-	private static Integer thread_count;
-
 	public static void main(String[] args)
 	{
-		if (!check_arg(args))
+		Integer thread_count;
+		Loader loader;
+
+		if ((thread_count = check_arg(args)) == null)
 			System.exit(1);
+		loader = new Loader(thread_count);
+		if (!loader.loading())
+			System.exit(1);
+		System.exit(0);
 	}
 
-	private static boolean check_arg(String[] args)
+	private static Integer check_arg(String[] args)
 	{
 		Integer thread_count;
 
 		if (!check_one_arg(args))
-			return false;
+		{
+			print_err_msg_with_example(MSG_ERR_NUM_ARG, EXAMPLE_ARGS, DETAILS);
+			return null;
+		}
 		if ((thread_count = check_valid_arg(args)) == null)
-			return false;
-		Program.thread_count = thread_count;
-		return true;
-	}
-
-	public Integer getThread_count()
-	{
+		{
+			print_err_msg_with_example(MSG_NO_VALID_ARG, EXAMPLE_ARGS, DETAILS);
+			return null;
+		}
 		return thread_count;
 	}
-
 }
