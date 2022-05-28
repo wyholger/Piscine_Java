@@ -20,7 +20,7 @@ public class InitConnection
 		config.addDataSourceProperty( "cachePrepStmts" , "true" );
 		config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 		config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-		data_source = new HikariDataSource(config); //проверить что возвращает при неправильном конфиге
+		data_source = new HikariDataSource(config);
 		try
 		{
 			connection = data_source.getConnection();

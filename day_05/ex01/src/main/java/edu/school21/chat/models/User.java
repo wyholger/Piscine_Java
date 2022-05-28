@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class User
 {
-	private Long id;
-	private String login;
-	private String password;
-	private List<Chatroom> created_rooms;
-	private List<Chatroom> socializes_rooms;
+	private final Long id;
+	private final String login;
+	private final String password;
+	private final List<Chatroom> created_rooms;
+	private final List<Chatroom> socializes_rooms;
 
 	public User(Long id, String login, String password)
 	{
@@ -76,12 +76,12 @@ public class User
 	@Override
 	public String toString()
 	{
-		return "User{" +
+		return "{" +
 				"id=" + id +
-				", login='" + login + '\'' +
-				", password='" + password + '\'' +
+				", login=\"" + login + '\"' +
+				", password=\"" + password + '\"' +
 				", created_rooms=" + created_rooms +
-				", socializes_rooms=" + socializes_rooms +
+				", rooms=" + socializes_rooms +
 				'}';
 	}
 }

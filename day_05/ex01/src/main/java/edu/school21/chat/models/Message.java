@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Message
 {
-	private Long id;
-	private User author;
-	private Chatroom room;
-	private String text;
-	private LocalDateTime data_time;
+	private final Long id;
+	private final User author;
+	private final Chatroom room;
+	private final String text;
+	private final LocalDateTime data_time;
 
 	public Message(Long id, User author, Chatroom room, String text, LocalDateTime data_time)
 	{
@@ -67,12 +67,12 @@ public class Message
 	@Override
 	public String toString()
 	{
-		return "Message{" +
-				"id=" + id +
-				", author=" + author +
-				", room=" + room +
-				", text='" + text + '\'' +
-				", data_time=" + data_time +
+		return "Message : {" +
+				"\n\tid=" + id +
+				",\n\tauthor=" + author +
+				",\n\troom=" + room +
+				",\n\ttext='" + text + '\'' +
+				",\n\tdataTime=" + data_time + "\n" +
 				'}';
 	}
 }

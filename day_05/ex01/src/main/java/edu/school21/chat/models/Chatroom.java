@@ -5,10 +5,10 @@ import java.util.Objects;
 
 public class Chatroom
 {
-	private Long id;
-	private String name;
-	private String owner;
-	private List<Message> messages;
+	private final Long id;
+	private final String name;
+	private final String owner;
+	private final List<Message> messages;
 
 	public Chatroom(Long id, String name, String owner)
 	{
@@ -59,11 +59,11 @@ public class Chatroom
 	@Override
 	public String toString()
 	{
-		return "Chatroom{" +
+		return "{" +
 				"id=" + id +
-				", name='" + name + '\'' +
-				", owner='" + owner + '\'' +
-				", messages=" + messages +
+				", name=\"" + name + '\"' +
+				", creator=\"" + owner + '\"' +
+				", messages=null" +
 				'}';
 	}
 }
