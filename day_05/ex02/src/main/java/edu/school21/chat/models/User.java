@@ -3,7 +3,7 @@ package edu.school21.chat.models;
 import java.util.List;
 import java.util.Objects;
 
-import static edu.school21.chat.app.Color.*;
+import static edu.school21.chat.util.Color.*;
 
 public class User
 {

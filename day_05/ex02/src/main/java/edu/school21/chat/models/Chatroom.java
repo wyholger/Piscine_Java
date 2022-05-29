@@ -3,16 +3,16 @@ package edu.school21.chat.models;
 import java.util.List;
 import java.util.Objects;
 
-import static edu.school21.chat.app.Color.*;
+import static edu.school21.chat.util.Color.*;
 
 public class Chatroom
 {
 	private final Long id;
 	private final String name;
-	private final String owner;
+	private final User owner;
 	private final List<Message> messages;
 
-	public Chatroom(Long id, String name, String owner)
+	public Chatroom(Long id, String name, User owner)
 	{
 		this.id = id;
 		this.name = name;
@@ -30,7 +30,7 @@ public class Chatroom
 		return name;
 	}
 
-	public String getOwner()
+	public User getOwner()
 	{
 		return owner;
 	}

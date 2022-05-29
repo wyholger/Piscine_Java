@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static edu.school21.chat.app.Color.*;
+import static edu.school21.chat.util.Color.*;
 
 public class Message
 {

@@ -1,5 +1,6 @@
 package edu.school21.chat.repositories;
 
+import edu.school21.chat.exceptions.NotSavedSubEntityException;
 import edu.school21.chat.models.Message;
 import edu.school21.chat.models.User;
 
@@ -51,5 +52,36 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository
 			return Optional.empty();
 		}
 		return optional_message;
+	}
+
+	@Override
+	public void save(Message message)
+	{
+		String SQL_INSERT_MESSAGE = "INSERT INTO chat.messages(author, room, text, timestamp) VALUES (?, ?, ?, ?) RETURNING *";
+		PreparedStatement prepared_statement;
+		ResultSet result_set;
+		Optional<Message> optional_message = Optional.empty();
+
+		try
+		{
+			if (message.getAuthor() != null && message.getRoom() != null && users_repository.findById(message.getAuthor().getId()).isPresent()
+					&& chat_rooms_repository.findById(message.getRoom().getId()).isPresent())
+			{
+				prepared_statement = connection.prepareStatement(SQL_INSERT_MESSAGE);
+				prepared_statement.setLong(1, message.getAuthor().getId());
+				prepared_statement.setLong(2, message.getRoom().getId());
+				prepared_statement.setString(3, message.getText());
+				prepared_statement.setTimestamp(4, Timestamp.valueOf(message.getData_time()));
+				result_set = prepared_statement.executeQuery();
+				result_set.next();
+				message.setId(result_set.getLong("id"));
+			}
+			else
+				throw new NotSavedSubEntityException();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
