@@ -21,6 +21,36 @@ public class Product
 		this.price = price;
 	}
 
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public void setPrice(Long price)
+	{
+		this.price = price;
+	}
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public Long getPrice()
+	{
+		return price;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
