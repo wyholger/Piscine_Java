@@ -31,6 +31,13 @@ public class Human
 		System.out.println(name + " jumped on " + centimeters + " to a height of " + (growth_m + (centimeters / 100)) + " meters");
 	}
 
+	public void say_hello(String name, int count)
+	{
+		for (int i = 0; i < count; i++) {
+			System.out.println("Hello " + name + "!");
+		}
+	}
+
 	@Override
 	public String toString()
 	{

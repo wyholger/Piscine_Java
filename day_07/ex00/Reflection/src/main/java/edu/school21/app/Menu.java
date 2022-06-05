@@ -2,8 +2,12 @@ package edu.school21.app;
 
 import edu.school21.util.Scan;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static edu.school21.util.Color.*;
@@ -29,17 +33,44 @@ public class Menu
 		print_fields_and_methods(find_class);
 	}
 
+	private Object create_object(Object find_class, Scan scan)
+	{
+		System.out.println(BLUE + "Let’s create an object." + RESET);
+		Field[] declared_fields = find_class.getClass().getDeclaredFields();
+		Constructor<?>[] constructors = find_class.getClass().getConstructors();
+		ArrayList<String> args_for_create_obj = new ArrayList<>();
+
+		for (Field f : declared_fields)
+		{
+			System.out.println(YELLOW + f.getName() + ":" + RESET);
+			args_for_create_obj.add(scan.scan_word());
+		}
+
+	}
+
 	private void print_fields_and_methods(Object find_class)
 	{
 		Field[] declared_fields = find_class.getClass().getDeclaredFields();
 		Method[] methods = find_class.getClass().getDeclaredMethods();
 		System.out.println(BLUE + "fields:" + RESET);
 		for (Field f : declared_fields)
-			System.out.println("       " + YELLOW + f.getType().getSimpleName() + " " + f.getName());
+			System.out.println("       " + YELLOW + f.getType().getSimpleName() + " " + f.getName() + RESET);
 		System.out.println(BLUE + "methods:" + RESET);
 		for (Method m: methods)
-			System.out.println("       " + YELLOW + m. + " " + f.getName());
-
+		{
+			System.out.print("       " + YELLOW + m.getReturnType().getSimpleName() + " " + m.getName() + "(");
+			Class<?>[] arg_types = m.getParameterTypes();
+			int i = 0;
+			for (Class<?> c: arg_types)
+			{
+				if (i > 0 && i < arg_types.length)
+					System.out.print(", ");
+				System.out.print(c.getSimpleName());
+				i++;
+			}
+			System.out.println(")" + RESET);
+		}
+		print_delimiter();
 	}
 
 	private Object scan_class_name(Scan scan)
