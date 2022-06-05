@@ -56,14 +56,12 @@ public class UsersServiceImplTest
 
 
 	@Test
-	public void already_authenticated_user() throws EntityNotFoundException, AlreadyAuthenticatedException
+	public void already_authenticated_user() throws EntityNotFoundException
 	{
 		boolean success;
 		User user = new User(0L, "petya", "true_pass", true);
 
 		when(users_repository.findByLogin("petya")).thenReturn(user);
-		Assertions.assertThrows(EntityNotFoundException.class, () -> )
-		success = users_service.authenticate("petya", "false_pass");
-		Assertions.assertFalse(success);
+		Assertions.assertThrows(AlreadyAuthenticatedException.class, () -> users_service.authenticate("petya", "true_pass"));
 	}
 }
