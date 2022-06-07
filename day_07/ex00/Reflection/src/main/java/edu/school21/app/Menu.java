@@ -2,12 +2,8 @@ package edu.school21.app;
 
 import edu.school21.util.Scan;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static edu.school21.util.Color.*;
@@ -25,27 +21,210 @@ public class Menu
 	{
 		Scan scan = new Scan();
 		Object find_class;
+		Object created_obj;
 
 		print_classes_list();
 		do
 			find_class = scan_class_name(scan);
 		while (find_class == null);
 		print_fields_and_methods(find_class);
+		created_obj = create_object(find_class);
+		fill_object(find_class, created_obj, scan);
+		re_fill_object(find_class, created_obj, scan);
+		call_method(find_class, created_obj, scan);
 	}
 
-	private Object create_object(Object find_class, Scan scan)
+	private void call_method(Object find_class, Object created_obj, Scan scan)
+	{
+		String		name_method;
+		Method[]	methods = find_class.getClass().getDeclaredMethods();
+		Method		found_method = null;
+		Object[]	args;
+		Object		arg;
+		Parameter[] parameters;
+		Object		result;
+
+		do
+		{
+			System.out.println(BLUE + "Enter name of the method for call:" + RESET);
+			name_method = scan.scan_word();
+
+			name_method
+			try
+			{
+				found_method = created_obj.getClass().getDeclaredMethod(name_method, int.class);
+			}
+			catch (NoSuchMethodException e)
+			{
+				System.out.println(RED + "Method with name " + YELLOW + name_method + RED + " not found." + RESET);
+				System.out.println(RED + "Try again." + RESET);
+			}
+//			found_method = validate_method_name(methods, name_method);
+		}
+		while (found_method == null);
+		parameters = found_method.getParameters();
+		args = new Object[parameters.length];
+		for (int i = 0; i < parameters.length; i++)
+		{
+			String type_name = parameters[i].getType().getSimpleName();
+			do
+			{
+				System.out.println(BLUE + "Enter " + YELLOW + type_name + BLUE + " value:");
+				String value = scan.scan_word();
+				arg = convert_value(type_name, value);
+			}
+			while (arg == null);
+			args[i] = arg;
+		}
+		try
+		{
+			found_method.setAccessible(true);
+			result = found_method.invoke(created_obj, args);
+			found_method.setAccessible(false);
+		}
+		catch (IllegalAccessException | InvocationTargetException e)
+		{
+			e.printStackTrace();
+			return;
+		}
+		System.out.println(BLUE + "Method returned:" + RESET);
+		System.out.println(YELLOW + "" + result + RESET);
+	}
+
+	private Method validate_method_name(Method[] methods, String method_name)
+	{
+		for (Method m: methods)
+		{
+			if (m.getName().equals(method_name))
+				return m;
+		}
+		System.out.println(RED + "Method with name " + YELLOW + method_name + RED + " not found." + RESET);
+		System.out.println(RED + "Try again." + RESET);
+		return null;
+	}
+
+	private void re_fill_object(Object find_class, Object created_obj, Scan scan)
+	{
+		Field[] declared_fields = find_class.getClass().getDeclaredFields();
+		Field	find_field;
+		Object	obj_arg;
+		String	fill_name;
+		String	new_value;
+
+		do
+		{
+			System.out.println(BLUE + "Enter name of the field for changing:" + RESET);
+			fill_name = scan.scan_word();
+			find_field = validate_fill_name(declared_fields, fill_name);
+		}
+		while (find_field == null);
+		do
+		{
+			System.out.println(BLUE + "Enter " + YELLOW + find_field.getType().getSimpleName() + BLUE + " value:");
+			new_value = scan.scan_word();
+			obj_arg = convert_value(find_field.getType().getSimpleName(), new_value);
+		}
+		while (obj_arg == null);
+		try
+		{
+			find_field.setAccessible(true);
+			find_field.set(created_obj, obj_arg);
+			find_field.setAccessible(false);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println(BLUE + "Object updated: " + YELLOW + created_obj.toString() + RESET);
+		print_delimiter();
+	}
+
+	private Field validate_fill_name(Field[] fields, String fill_name)
+	{
+		for (Field f: fields)
+		{
+			if (f.getName().equals(fill_name))
+				return f;
+		}
+		System.out.println(RED + "Field with name " + YELLOW + fill_name + RED + " not found." + RESET);
+		System.out.println(RED + "Try again." + RESET);
+		return null;
+	}
+
+	private Object create_object(Object find_class)
+	{
+		Class clazz = find_class.getClass();
+
+		try
+		{
+			return clazz.newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private void fill_object(Object find_class, Object created_obj, Scan scan)
 	{
 		System.out.println(BLUE + "Let’s create an object." + RESET);
 		Field[] declared_fields = find_class.getClass().getDeclaredFields();
-		Constructor<?>[] constructors = find_class.getClass().getConstructors();
-		ArrayList<String> args_for_create_obj = new ArrayList<>();
+		Object obj_arg;
 
 		for (Field f : declared_fields)
 		{
-			System.out.println(YELLOW + f.getName() + ":" + RESET);
-			args_for_create_obj.add(scan.scan_word());
+			do
+			{
+				System.out.println(YELLOW + f.getName() + ":" + RESET);
+				String value = scan.scan_word();
+				obj_arg = convert_value(f.getType().getSimpleName(), value);
+			}
+			while (obj_arg == null);
+			try
+			{
+				f.setAccessible(true);
+				f.set(created_obj, obj_arg);
+				f.setAccessible(false);
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
 		}
+		System.out.println(BLUE + "Object created: " + YELLOW + created_obj.toString() + RESET);
+		print_delimiter();
+	}
 
+	private Object convert_value(String type, String value)
+	{
+		try {
+			switch (type) {
+				case "Integer":
+				case "int":
+					return (Integer.parseInt(value));
+				case "Long":
+					return (Long.parseLong(value));
+				case "Boolean":
+					return (Boolean.parseBoolean(value));
+				case "Float":
+					return (Float.parseFloat(value));
+				case "Double":
+					return (Double.parseDouble(value));
+				case "Short":
+					return (Short.parseShort(value));
+				case "String":
+					return (value);
+				default:
+					return null;
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(RED + "Can't cast " + YELLOW + value + RED + " to " + YELLOW + type + RESET);
+			System.out.println(RED + "Try again." + RESET);
+			return null;
+		}
 	}
 
 	private void print_fields_and_methods(Object find_class)

@@ -26,9 +26,9 @@ public class Human
 		this.amount_of_hair = 0L;
 	}
 
-	public void jump(int centimeters)
+	public Double jump(int centimeters)
 	{
-		System.out.println(name + " jumped on " + centimeters + " to a height of " + (growth_m + (centimeters / 100)) + " meters");
+		return (growth_m + (centimeters / 100));
 	}
 
 	public void say_hello(String name, int count)
@@ -41,12 +41,12 @@ public class Human
 	@Override
 	public String toString()
 	{
-		return "Human{" +
+		return "Human[" +
 				"name='" + name + '\'' +
 				", age=" + age +
 				", growth_m=" + growth_m +
 				", pet=" + pet +
 				", amount_of_hair=" + amount_of_hair +
-				'}';
+				']';
 	}
 }

@@ -34,12 +34,12 @@ public class Planet
 	@Override
 	public String toString()
 	{
-		return "Planet{" +
+		return "Planet[" +
 				"name='" + name + '\'' +
 				", position_from_star=" + position_from_star +
 				", period_rotation_around_axis_hours=" + period_rotation_around_axis_hours +
 				", planetary_ring_system=" + planetary_ring_system +
 				", equatorial_radius=" + equatorial_radius +
-				'}';
+				']';
 	}
 }
