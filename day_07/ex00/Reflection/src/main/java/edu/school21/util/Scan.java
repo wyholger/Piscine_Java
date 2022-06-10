@@ -17,4 +17,11 @@ public class Scan
 		str = scan.next();
 		return str;
 	}
+
+	public String scan_line()
+	{
+		String str;
+		str = scan.nextLine();
+		return str;
+	}
 }

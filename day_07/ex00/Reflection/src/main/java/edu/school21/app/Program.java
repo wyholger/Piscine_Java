@@ -1,7 +1,7 @@
 package edu.school21.app;
 
-import edu.school21.classes.Human;
-import edu.school21.classes.Planet;
+import edu.school21.classes.Airplane;
+import edu.school21.classes.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,13 @@ public class Program
 		Menu menu = new Menu(classes);
 
 		menu.menu_start();
-
-
 	}
 
 	public static List<Object> init_classes()
 	{
 		List<Object> classes = new ArrayList<>();
-		classes.add(new Human());
-		classes.add(new Planet());
+		classes.add(new User());
+		classes.add(new Airplane());
 		return classes;
 	}
 }
