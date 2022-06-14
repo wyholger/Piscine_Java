@@ -17,7 +17,7 @@ Renderer also has a dependency on PreProcessor interface that pre-processes mess
 
 UML diagram of classes is shown below:
 
-![Diagram of classes](misc/images/Diagram.png)
+![Diagram of classes](img/Diagram.png)
 
 An example of code using these classes in a standard way:
 ```java
