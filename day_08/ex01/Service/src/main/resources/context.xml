@@ -11,6 +11,10 @@
         <constructor-arg name="data_source" ref="hikari_DS"/>
     </bean>
 
+    <bean id="template_DS" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl.ManagerDS"/>
 
+    <bean id="usr_repo_JDBS_template" class="school21.spring.service.repositories.UsersRepositoryJdbcTemplateImpl">
+        <constructor-arg name="manager_data_source" ref="template_DS"/>
+    </bean>
 
 </beans>
